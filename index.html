@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himani Phartiyal · Futuristic Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ========== ADDITIONAL STYLES FROM OTHER PAGES ========== */
+        .skills-main { padding-top: 0; }
+        .skills-header { text-align: center; margin-bottom: 3rem; }
+        .skills-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .skills-categories { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .category-section { margin-bottom: 4rem; }
+        .category-title { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; font-size: 2rem; border-left: 4px solid #00ffff; padding-left: 1rem; }
+        .category-title i { font-size: 2.5rem; color: #00ffff; text-shadow: 0 0 20px #00ffff; }
+        .category-title h2 { background: linear-gradient(90deg, #fff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; }
+        .skill-item {
+            background: rgba(10, 10, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .skill-item::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ffff, #ff00cc, #00ff88);
+            border-radius: 26px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+        .skill-item:hover::after { opacity: 1; }
+        .skill-item:hover { transform: translateY(-8px) scale(1.02); border-color: transparent; box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); }
+        .skill-icon {
+            width: 70px; height: 70px; margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center;
+            background: rgba(0, 255, 255, 0.1); border-radius: 20px; font-size: 2.2rem; transition: 0.3s;
+        }
+        .skill-item:hover .skill-icon { transform: scale(1.1); background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 20px #00ffff; }
+        .skill-name { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .skill-sub { font-size: 0.85rem; color: #aaa; margin-top: 0.3rem; }
+        .core-badge {
+            position: absolute; top: 12px; right: 12px; background: #00ffff; color: #0a0a0a; font-size: 0.7rem;
+            font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 30px; box-shadow: 0 0 10px #00ffff;
+        }
+        .category-tech .skill-icon { background: rgba(0,255,255,0.15); color: #00ffff; }
+        .category-design .skill-icon { background: rgba(255,0,204,0.15); color: #ff00cc; }
+        .category-web .skill-icon { background: rgba(51,51,255,0.15); color: #3333ff; }
+        .category-ar .skill-icon { background: rgba(255,170,0,0.15); color: #ffaa00; }
+        .category-tools .skill-icon { background: rgba(0,255,136,0.15); color: #00ff88; }
+        .category-soft .skill-icon { background: rgba(255,255,255,0.15); color: #fff; }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .project-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover { transform: translateY(-10px); border-color: #00ffff; box-shadow: 0 0 40px rgba(0,255,255,0.3); }
+        .project-img { height: 200px; overflow: hidden; }
+        .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .project-card:hover .project-img img { transform: scale(1.1); }
+        .project-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+        .project-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
+        .project-info p { color: #ccc; margin-bottom: 1rem; line-height: 1.6; flex: 1; }
+        .github-btn {
+            display: inline-block; padding: 0.5rem 1.2rem; background: rgba(0,255,255,0.1);
+            border-radius: 30px; color: #00ffff; text-decoration: none; transition: 0.3s;
+            border: 1px solid rgba(0,255,255,0.3); align-self: flex-start; margin-top: 0.5rem;
+        }
+        .github-btn:hover { background: #00ffff; color: #0a0a0a; box-shadow: 0 0 20px #00ffff; }
+
+        .about-container {
+            display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; max-width: 1100px;
+            margin: 0 auto; padding: 0 2rem;
+        }
+        .about-left { text-align: center; }
+        .avatar-illustration { font-size: 8rem; color: #00ffff; filter: drop-shadow(0 0 30px #00ffff); margin-bottom: 2rem; }
+        .resume-btn { margin-top: 1rem; display: inline-block; }
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 7px; top: 0; height: 100%; width: 2px;
+            background: linear-gradient(#ff00cc, #00ffff); box-shadow: 0 0 15px #00ffff;
+        }
+        .timeline-item { position: relative; margin-bottom: 2rem; }
+        .timeline-dot {
+            position: absolute; left: -2.1rem; top: 0.5rem; width: 16px; height: 16px;
+            border-radius: 50%; background: #00ffff; box-shadow: 0 0 20px #00ffff;
+        }
+        .timeline-content {
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 12px; padding: 1.2rem;
+        }
+        .counters { display: flex; justify-content: space-around; margin-top: 3rem; }
+        .counter-item { text-align: center; }
+        .counter { font-size: 2.5rem; font-weight: 800; background: linear-gradient(90deg, #ff00cc, #00ffff); -webkit-background-clip: text; color: transparent; }
+
+        .contact-container { max-width: 600px; margin: 0 auto; padding: 0 2rem; }
+        .contact-form {
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 20px; padding: 2.5rem;
+        }
+        .input-group { position: relative; margin-bottom: 2rem; }
+        .input-group input, .input-group textarea {
+            width: 100%; padding: 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        .input-group textarea { min-height: 120px; resize: vertical; }
+        .input-group label {
+            position: absolute; left: 1rem; top: 1rem; color: #aaa; pointer-events: none; transition: 0.3s;
+        }
+        .input-group input:focus ~ label, .input-group input:valid ~ label,
+        .input-group textarea:focus ~ label, .input-group textarea:valid ~ label {
+            top: -0.8rem; left: 0.8rem; font-size: 0.8rem; background: #0a0a0a; padding: 0 0.3rem; color: #00ffff;
+        }
+        .input-group input:focus, .input-group textarea:focus { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+        .social-links {
+            display: flex; justify-content: center; gap: 2rem; margin-top: 3rem;
+        }
+        .social-icon {
+            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); color: #fff; text-decoration: none;
+        }
+        .social-icon:hover {
+            transform: rotate(360deg) scale(1.2); background: #00ffff; color: #0a0a0a;
+            box-shadow: 0 0 30px #00ffff;
+        }
+
+        @media (max-width: 768px) {
+            .skills-header h1 { font-size: 2rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .category-title { font-size: 1.5rem; }
+            .about-container { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+        /* Footer styles */
+.footer {
+    margin-top: 4rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    background: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 0;
+}
+
+.footer-content p {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.footer-links a {
+    color: #00ffff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #00ffff;
+}
+/* Add spacing between sections */
+.section {
+    margin-bottom: 5rem;
+    padding-bottom: 1rem;
+}
+
+/* Remove margin from last section before footer */
+.section:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Optional: extra spacing after hero if needed */
+.hero {
+    margin-bottom: 4rem;
+}
+/* Center the contact header */
+.contact-header {
+    text-align: center;
+}
+/* Technologies Slider Section */
+.tech-slider-section {
+    text-align: center;
+    padding: 2rem 1rem;
+    overflow: hidden;
+}
+
+.tech-subtitle {
+    color: #ccc;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 1rem 0;
+}
+
+.slider-track {
+    display: flex;
+    gap: 1.8rem;
+    animation: scroll 40s linear infinite;
+    width: fit-content;
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+.slide-card {
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.slide-card:hover {
+    transform: translateY(-8px);
+    border-color: #00ffff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+}
+
+.slide-icon {
+    font-size: 2.5rem;
+    color: #00ffff;
+    margin-bottom: 1rem;
+}
+
+.slide-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.slide-desc {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+/* Infinite scroll animation */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Slider Controls (optional, can be removed for pure auto-scroll) */
+.slider-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.slider-btn {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: #00ffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+    background: #00ffff;
+    color: #0a0a0a;
+    box-shadow: 0 0 20px #00ffff;
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .slide-card {
+        min-width: 180px;
+        padding: 1rem;
+    }
+    .slide-icon {
+        font-size: 2rem;
+    }
+    .slide-name {
+        font-size: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="cursor-glow"></div>
+    <div class="loader-container" id="loader">
+        <div class="loader-ring"></div><div class="loader-ring"></div><div class="loader-ring"></div>
+    </div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="#home" class="logo">HIMANI <span>PHARTIYAL</span></a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- HOME SECTION -->
+        <section class="hero section" id="home">
+            <div class="hero-container">
+                <div class="hero-content fade-up">
+                    <h1 class="hero-title">
+                        <span class="gradient-text-animated">Creative Technologist</span>
+                    </h1>
+                    <p class="hero-desc">
+    Blending creativity with technology, I specialize in <strong>graphic design</strong>, web development, 3D modelling, and UI/UX design, while also working with Python, Power BI, and automation tools. Over three years of BCA in AR/VR, I have developed projects that reflect my passion for design, innovation, and intelligent digital solutions.
+</p>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn neon-btn">View Projects <i class="fas fa-arrow-right"></i></a>
+                        <a href="#contact" class="btn outline-btn">Contact Me</a>
+                    </div>
+                </div>
+                <div class="hero-image float-animation">
+                    <div class="profile-img-container glass">
+                        <img src="IMG_1991 (1).PNG" alt="Himani Phartiyal" class="profile-img">
+                        <div class="img-glow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="floating-shape"></div>
+        </section>
+
+        <!-- HIGHLIGHTS SECTION -->
+        <section class="highlights section">
+            <div class="highlight-grid">
+                <div class="highlight-card glass card-float">
+                    <i class="fas fa-cube"></i>
+                    <h3>XR & Unity</h3>
+                    <p>immersive ar/vr prototypes with blender + unity</p>
+                </div>
+                <div class="highlight-card glass card-float">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>AI / BI</h3>
+                    <p>python, power bi, generative interfaces</p>
+                </div>
+                <div class="highlight-card glass card-float">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>design system</h3>
+                    <p>photoshop, ui/ux, motion & neon gradients</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section class="section" id="skills">
+            <div class="skills-header">
+                <h1 class="gradient-text-animated">Core Skills</h1>
+                <p>Essential skills that drive my work — curated, powerful, and sharp.</p>
+            </div>
+            <div class="skills-categories">
+                <div class="category-section category-tech">
+                    <div class="category-title"><i class="fas fa-code"></i><h2>Technical Stack</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="core-badge">⚡ core</div><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-name">Python</div><div class="skill-sub">Automation, AI, Scripting</div></div>
+                        <div class="skill-item"><div class="core-badge">⚡ core</div><div class="skill-icon"><i class="fas fa-chart-line"></i></div><div class="skill-name">Power BI</div><div class="skill-sub">Dashboards, Data Storytelling</div></div>
+                        <div class="skill-item"><div class="core-badge">⚡ core</div><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">SQL</div><div class="skill-sub">Data Manipulation, Queries</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-envelope"></i></div><div class="skill-name">Automation</div><div class="skill-sub">Email, Workflow, Power Automate</div></div>
+                    </div>
+                </div>
+
+                <div class="category-section category-design">
+                    <div class="category-title"><i class="fas fa-paint-brush"></i><h2>Design & UX</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="core-badge">✨ master</div><div class="skill-icon"><i class="fas fa-paint-brush"></i></div><div class="skill-name">Graphic Design</div><div class="skill-sub">Visual Identity, Branding</div></div>
+                        <div class="skill-item"><div class="core-badge">✨ master</div><div class="skill-icon"><i class="fas fa-mouse-pointer"></i></div><div class="skill-name">UI/UX Design</div><div class="skill-sub">Wireframing, Prototyping</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-palette"></i></div><div class="skill-name">Color & Typography</div><div class="skill-sub">Theory, Pairing, Hierarchy</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-book-open"></i></div><div class="skill-name">Visual Storytelling</div><div class="skill-sub">Engaging Narratives</div></div>
+                    </div>
+                </div>
+
+                <div class="category-section category-web">
+                    <div class="category-title"><i class="fas fa-globe"></i><h2>Web Craft</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="core-badge">⚡ core</div><div class="skill-icon"><i class="fab fa-html5"></i></div><div class="skill-name">HTML5 & CSS3</div><div class="skill-sub">Responsive, Animations</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">JavaScript</div><div class="skill-sub">Interactivity, DOM</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-mobile-alt"></i></div><div class="skill-name">Responsive Design</div><div class="skill-sub">Mobile-first, Flex/Grid</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-file-alt"></i></div><div class="skill-name">Portfolio/Landing Pages</div><div class="skill-sub">High‑impact sites</div></div>
+                    </div>
+                </div>
+
+                <div class="category-section category-ar">
+                    <div class="category-title"><i class="fas fa-vr-cardboard"></i><h2>XR & 3D</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="core-badge">🚀 expert</div><div class="skill-icon"><i class="fab fa-unity"></i></div><div class="skill-name">Unity (AR/VR)</div><div class="skill-sub">Interactive Experiences</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-cube"></i></div><div class="skill-name">3D Modelling</div><div class="skill-sub">Blender, Assets</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-glasses"></i></div><div class="skill-name">Immersive Design</div><div class="skill-sub">Spatial Computing</div></div>
+                    </div>
+                </div>
+
+                <div class="category-section category-tools">
+                    <div class="category-title"><i class="fas fa-tools"></i><h2>Toolkit</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="skill-icon"><i class="fab fa-unity"></i></div><div class="skill-name">Unity</div><div class="skill-sub">Game/XR Dev</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-cube"></i></div><div class="skill-name">Blender</div><div class="skill-sub">3D Art</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">VS Code</div><div class="skill-sub">Code Editor</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fab fa-canva"></i></div><div class="skill-name">Canva / Photoshop</div><div class="skill-sub">Design & Editing</div></div>
+                    </div>
+                </div>
+
+                <div class="category-section category-soft">
+                    <div class="category-title"><i class="fas fa-brain"></i><h2>Mindset</h2></div>
+                    <div class="skills-grid">
+                        <div class="skill-item"><div class="core-badge">🧠</div><div class="skill-icon"><i class="fas fa-lightbulb"></i></div><div class="skill-name">Problem Solving</div><div class="skill-sub">Analytical & Creative</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-tasks"></i></div><div class="skill-name">Project Management</div><div class="skill-sub">Agile, Planning</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-comments"></i></div><div class="skill-name">Communication</div><div class="skill-sub">Technical & Visual</div></div>
+                        <div class="skill-item"><div class="skill-icon"><i class="fas fa-graduation-cap"></i></div><div class="skill-name">Self-Learning</div><div class="skill-sub">Curious, Adaptable</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section class="section" id="projects">
+            <h1 class="gradient-text-animated" style="text-align:center; margin-bottom:2rem;">My Projects</h1>
+            <p style="text-align:center; margin-bottom:2rem;">A collection of my work in VR, web, AI, and design</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img"><img src="https://static.vecteezy.com/system/resources/previews/030/605/791/large_2x/our-3d-solar-system-with-planets-in-orbits-path-ai-generative-free-photo.jpg" alt="VR headset"></div>
+                    <div class="project-info"><h3>Samsarah</h3><p><strong>Group project</strong> – 3D VR experience showcasing the evolution of Earth and the solar system. Designed for VR headsets with sensory features. Built with Unity, Blender.</p><a href="#" class="github-btn"><i class="fab fa-github"></i> View Code</a></div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img"><img src="https://cdn.dribbble.com/userupload/10286722/file/original-7962a56b257ac246285fdf37eb87c582.jpg?crop=0x0-2880x2160&resize=400x300&vertical=center" alt="Finance dashboard"></div>
+                    <div class="project-info"><h3>Personal Finance Tracker</h3><p><strong>Group project</strong> – MERN stack app to track finances, saving tips, investment ideas.</p><a href="https://github.com/HimaniPhartiyal6/Finance-Tracker" class="github-btn"><i class="fab fa-github"></i> View Code</a></div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img"><img src="https://thumbs.dreamstime.com/z/indian-collage-illustration-showing-culture-tradition-festival-india-vector-design-155788382.jpg" alt="Indian festival"></div>
+                    <div class="project-info"><h3>Indie Utsav</h3><p>Website showcasing Indian festivals – from popular to hidden gems. HTML, CSS, JavaScript.</p><a href="https://github.com/HimaniPhartiyal6/Indie-Utsav" class="github-btn"><i class="fab fa-github"></i> View Code</a></div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img"><img src="https://eu-images.contentstack.com/v3/assets/blt6b0f74e5591baa03/blt15c4c85d9cb3eb3e/64ef0832e5f8adbc1ca96404/Untitled_design_(53).jpg?disable=upscale&width=1200&height=630&fit=crop" alt="Podcast"></div>
+                    <div class="project-info"><h3>Text to Podcast</h3><p>AI tool that transforms textbooks into engaging podcasts. Python + AI models.</p><a href="https://github.com/HimaniPhartiyal6/ai-podcast-generator" class="github-btn"><i class="fab fa-github"></i> View Code</a></div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img"><img src="https://i.pinimg.com/originals/f5/87/b3/f587b3679c1a281cce858468f16ce8e9.jpg" alt="Healthy food"></div>
+                    <div class="project-info"><h3>Chronos</h3><p>Wellness website: diet plans, hydration, tasks, Indian‑taste alternatives. HTML, CSS, JS.</p><a href="https://github.com/HimaniPhartiyal6/Chronos" class="github-btn"><i class="fab fa-github"></i> View Code</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="section" id="about">
+            <div class="about-container">
+                <div class="about-left fade-right">
+                    <div class="avatar-illustration float-animation"><i class="fas fa-user-astronaut"></i></div>
+<a href="PDF/Himani-Phartiyal-Resume.pdf" download class="btn neon-btn resume-btn">
+    <i class="fas fa-download"></i> Download Resume
+</a>                </div>
+                <div class="about-right fade-left">
+                    <h2 class="section-title gradient-text-animated">About Me</h2>
+                    <div class="timeline">
+                        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h4>2023 – 2026</h4><p>Bca-AR/VR · Chandigarh University</p></div></div>
+                    </div>
+                    <div class="counters">
+                        <div class="counter-item"><span class="counter" data-target="6">0</span><p>Projects</p></div>
+                        <div class="counter-item"><span class="counter" data-target="1">0</span><p>Internship</p></div>
+                        <div class="counter-item"><span class="counter" data-target="30">0</span><p>Skills</p></div>
+                      <div class="counter-item"><span class="counter" data-target="59">0</span><p>Certificates</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNOLOGIES & TOOLS SLIDER SECTION -->
+<section class="section tech-slider-section" id="technologies">
+    <h2 class="section-title gradient-text-animated">Technologies & Tools I Use</h2>
+    <p class="tech-subtitle">Powering my creativity with industry‑leading tools and frameworks</p>
+
+    <!-- Slider Container -->
+    <div class="slider-container">
+        <div class="slider-track" id="sliderTrack">
+            <!-- Each slide has an icon + description -->
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-python"></i></div>
+                <div class="slide-name">Python</div>
+                <div class="slide-desc">Automation, AI, data analysis</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="slide-name">Power BI</div>
+                <div class="slide-desc">Dashboards & data storytelling</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-unity"></i></div>
+                <div class="slide-name">Unity</div>
+                <div class="slide-desc">AR/VR development</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-cube"></i></div>
+                <div class="slide-name">Blender</div>
+                <div class="slide-desc">3D modelling & animation</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-database"></i></div>
+                <div class="slide-name">Oracle</div>
+                <div class="slide-desc">Database management</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-canva"></i></div>
+                <div class="slide-name">Canva</div>
+                <div class="slide-desc">Graphic design & presentations</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-paint-brush"></i></div>
+                <div class="slide-name">Photoshop</div>
+                <div class="slide-desc">Image editing & UI design</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-html5"></i></div>
+                <div class="slide-name">HTML5</div>
+                <div class="slide-desc">Semantic markup, structure</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-css3-alt"></i></div>
+                <div class="slide-name">CSS3</div>
+                <div class="slide-desc">Animations, responsive design</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-code"></i></div>
+                <div class="slide-name">JavaScript</div>
+                <div class="slide-desc">Interactivity, DOM manipulation</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fab fa-react"></i></div>
+                <div class="slide-name">React</div>
+                <div class="slide-desc">Component‑based UI</div>
+            </div>
+            <div class="slide-card glass">
+                <div class="slide-icon"><i class="fas fa-envelope"></i></div>
+                <div class="slide-name">Power Automate</div>
+                <div class="slide-desc">Workflow automation</div>
+            </div>
+        </div>
+    </div>
+
+    
+</section>
+
+        <!-- CONTACT SECTION -->
+        <section class="section" id="contact">
+            <div class="contact-header">
+                <h1 class="gradient-text-animated">Let's Connect</h1>
+                <p>Have a project in mind? Send me a message!</p>
+            </div>
+            <div class="contact-container">
+                <form class="contact-form" action="https://formspree.io/f/mwvropda" method="POST">
+                    <div class="input-group"><input type="text" id="name" name="name" required><label for="name">Your Name</label></div>
+                    <div class="input-group"><input type="email" id="email" name="email" required><label for="email">Email Address</label></div>
+                    <div class="input-group"><textarea id="message" name="message" required></textarea><label for="message">Message</label></div>
+                    <input type="hidden" name="_redirect" value="contact.html">
+                    <button type="submit" class="btn neon-btn" style="width:100%;">Send Message <i class="fas fa-paper-plane"></i></button>
+                </form>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/himani-phartiyal-147325292/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/HimaniPhartiyal6" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+        <!-- FOOTER -->
+<footer class="footer glass">
+    <div class="footer-content">
+        <p>&copy; 2026 Himani Phartiyal. All rights reserved.</p>
+        
+    </div>
+</footer>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Ensure smooth scroll works even if external script fails
+        document.addEventListener('DOMContentLoaded', function() {
+            // Word animation (if element exists)
+            const paragraph = document.getElementById('animated-paragraph');
+            if (paragraph && !paragraph.hasAttribute('data-animated')) {
+                const text = paragraph.innerHTML;
+                const words = text.split(' ');
+                paragraph.innerHTML = '';
+                words.forEach((word, i) => {
+                    const span = document.createElement('span');
+                    span.textContent = word + ' ';
+                    span.style.opacity = '0';
+                    span.style.transition = 'opacity 0.2s';
+                    span.style.display = 'inline-block';
+                    paragraph.appendChild(span);
+                });
+                const spans = paragraph.querySelectorAll('span');
+                spans.forEach((span, idx) => {
+                    setTimeout(() => { span.style.opacity = '1'; }, idx * 60);
+                });
+                paragraph.setAttribute('data-animated', 'true');
+            }
+
+            // Smooth scroll for navbar links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            // Highlight active section on scroll
+            window.addEventListener('scroll', () => {
+                const sections = document.querySelectorAll('.section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    if (pageYOffset >= sectionTop && pageYOffset < sectionBottom) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
